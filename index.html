@@ -1,42 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Barakat Connect</title>
-    <style>
-        /* Your beautiful CSS from Quran Explorer - just change colors */
-        body { font-family: Arial; max-width: 600px; margin: 0 auto; padding: 20px; }
-        .card { background: #f0f8f0; padding: 20px; border-radius: 10px; margin: 20px 0; }
-        button { background: #2E8B57; color: white; padding: 12px; border: none; border-radius: 5px; margin: 5px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barakat Connect</title>
+<style>
+    body {
+        font-family: 'Georgia', serif;
+        background: #f5f7f4;
+        color: #2e3a31;
+        text-align: center;
+        padding: 20px;
+        transition: all 0.3s;
+    }
+    h1 { font-size: 2rem; margin-bottom: 5px; }
+    p { margin: 8px 0; }
+    .card {
+        background: #e8f3ea;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        max-width: 600px;
+        margin: 20px auto;
+        transition: all 0.3s;
+    }
+    button {
+        background: #2e8b57;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 10px;
+        font-size: 1rem;
+        transition: all 0.2s;
+    }
+    button:hover { background: #246b44; transform: scale(1.05); }
+    #meal-count {
+        font-weight: bold;
+        color: #1f5d3b;
+    }
+    .dark-mode { background: #2b2b2b; color: #f5f5f5; }
+    .dark-mode .card { background: #3a3a3a; }
+    .toggle-btn {
+        background: #555;
+        margin-top: 15px;
+    }
+</style>
 </head>
 <body>
-    <h1>🍽️ Barakat Connect</h1>
-    <p>Mumbai Food Rescue Initiative</p>
-    
-    <div class="card">
-        <h3>Restaurant Owners:</h3>
-        <p>Have surplus food? Let NGOs know via WhatsApp:</p>
-        <button onclick="shareDonation()">Report Surplus Food</button>
-    </div>
-    
-    <div class="card">
-        <h3>NGO Volunteers:</h3>
-        <p>Contact: barakat.connect@email.com</p>
-        <p>Currently serving: Bandra, Andheri, Colaba areas</p>
-    </div>
 
-    <script>
-        function shareDonation() {
-            const message = "Barakat Connect: We have surplus food available for donation. Please contact us.";
-            window.open(`https://wa.me/919999999999?text=${encodeURIComponent(message)}`);
-        }
-        
-        // Simple meal counter (updates on page load)
-        let savedMeals = localStorage.getItem('barakatMeals') || 1247;
-        savedMeals = parseInt(savedMeals) + Math.floor(Math.random() * 3);
-        localStorage.setItem('barakatMeals', savedMeals);
-        
-        document.body.innerHTML = document.body.innerHTML.replace('1,247 meals', `${savedMeals.toLocaleString()} meals`);
-    </script>
+<h1>🍽️ Barakat Connect</h1>
+<p>Mumbai Food Rescue Initiative</p>
+
+<div class="card">
+    <h3>Restaurant Owners</h3>
+    <p>Have surplus food? Let NGOs know via WhatsApp:</p>
+    <button onclick="shareDonation()">Report Surplus Food</button>
+</div>
+
+<div class="card">
+    <h3>NGO Volunteers</h3>
+    <p>Contact: <a href="mailto:barakat.connect@email.com">barakat.connect@email.com</a></p>
+    <p>Currently serving: Bandra, Andheri, Colaba areas</p>
+    <p>Meals saved so far: <span id="meal-count">1,247</span></p>
+</div>
+
+<button class="toggle-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+<script>
+    // WhatsApp share
+    function shareDonation() {
+        const message = "Barakat Connect: We have surplus food available for donation. Please contact us.";
+        window.open(`https://wa.me/919999999999?text=${encodeURIComponent(message)}`);
+        alert("Thank you! NGO volunteers will contact you soon.");
+    }
+
+    // Meal counter
+    let savedMeals = localStorage.getItem('barakatMeals') || 1247;
+    savedMeals = parseInt(savedMeals) + Math.floor(Math.random() * 3);
+    localStorage.setItem('barakatMeals', savedMeals);
+    document.getElementById('meal-count').textContent = savedMeals.toLocaleString();
+
+    // Dark mode toggle
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('barakatDark', document.body.classList.contains('dark-mode'));
+    }
+
+    // Load dark mode preference
+    if(localStorage.getItem('barakatDark') === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+</script>
+
 </body>
 </html>
