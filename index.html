@@ -7,92 +7,115 @@
 <style>
     body {
         font-family: 'Georgia', serif;
-        background: #f5f7f4;
-        color: #2e3a31;
+        background: #e0e0e0; /* city grey */
+        color: #2b2b2b;
         text-align: center;
-        padding: 20px;
-        transition: all 0.3s;
+        padding: 30px 20px;
     }
-    h1 { font-size: 2rem; margin-bottom: 5px; }
-    p { margin: 8px 0; }
-    .card {
-        background: #e8f3ea;
-        padding: 25px;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    p.subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+        color: #555;
         max-width: 600px;
-        margin: 20px auto;
-        transition: all 0.3s;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.5;
     }
-    button {
-        background: #2e8b57;
+
+    .card {
+        background: #fefcf7;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        max-width: 500px;
+        margin: 20px auto;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    h3 {
+        margin-bottom: 12px;
+        color: #2b2b2b;
+    }
+
+    .info {
+        margin: 8px 0;
+        color: #444;
+        line-height: 1.4;
+    }
+
+    .button {
+        display: inline-block;
+        background: #556b2f;
         color: white;
-        padding: 12px 20px;
+        padding: 12px 18px;
         border: none;
         border-radius: 8px;
         cursor: pointer;
-        margin-top: 10px;
         font-size: 1rem;
-        transition: all 0.2s;
+        text-decoration: none;
+        transition: background 0.2s, transform 0.2s;
+        margin-top: 12px;
     }
-    button:hover { background: #246b44; transform: scale(1.05); }
-    #meal-count {
-        font-weight: bold;
-        color: #1f5d3b;
+
+    .button:hover {
+        background: #3f5321;
+        transform: scale(1.05);
     }
-    .dark-mode { background: #2b2b2b; color: #f5f5f5; }
-    .dark-mode .card { background: #3a3a3a; }
-    .toggle-btn {
-        background: #555;
-        margin-top: 15px;
+
+    #map {
+        width: 100%;
+        max-width: 500px;
+        height: 300px;
+        border-radius: 12px;
+        margin: 20px auto;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     }
 </style>
 </head>
 <body>
+    <h1>🍽️ Barakat Connect</h1>
+    <p class="subtitle">
+        Connecting surplus food to NGOs across Mumbai.  
+        Every meal shared is a story of hope, a small act of love for our city.
+    </p>
 
-<h1>🍽️ Barakat Connect</h1>
-<p>Mumbai Food Rescue Initiative</p>
+    <div class="card">
+        <h3>Get Connected</h3>
+        <p class="info">Click below to explore NGOs working to distribute surplus food in Mumbai.</p>
+        <a class="button" href="https://www.example-ngo-page.org" target="_blank">Connect Now</a>
+    </div>
 
-<div class="card">
-    <h3>Restaurant Owners</h3>
-    <p>Have surplus food? Let NGOs know via WhatsApp:</p>
-    <button onclick="shareDonation()">Report Surplus Food</button>
-</div>
+    <div id="map"></div>
 
-<div class="card">
-    <h3>NGO Volunteers</h3>
-    <p>Contact: <a href="mailto:shifasayed106@email.com">barakat.connect@email.com</a></p>
-    <p>Currently serving: All Mumbai areas</p>
-    <p> Let's eradicate hunger! </p>
-</div>
+    <script>
+        // Initialize Google Map
+        function initMap() {
+            const mumbai = { lat: 19.0760, lng: 72.8777 };
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 11,
+                center: mumbai
+            });
 
-<button class="toggle-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
-
-<script>
-    // WhatsApp share
-    function shareDonation() {
-        const message = "Barakat Connect: We have surplus food available for donation. Please contact us.";
-        window.open(`https://wa.me/919820982173?text=${encodeURIComponent(message)}`);
-        alert("Thank you! NGO volunteers will contact you soon.");
-    }
-
-    // Meal counter
-    let savedMeals = localStorage.getItem('barakatMeals') || 1247;
-    savedMeals = parseInt(savedMeals) + Math.floor(Math.random() * 3);
-    localStorage.setItem('barakatMeals', savedMeals);
-    document.getElementById('meal-count').textContent = savedMeals.toLocaleString();
-
-    // Dark mode toggle
-    function toggleDarkMode() {
-        document.body.classList.toggle('dark-mode');
-        localStorage.setItem('barakatDark', document.body.classList.contains('dark-mode'));
-    }
-
-    // Load dark mode preference
-    if(localStorage.getItem('barakatDark') === 'true') {
-        document.body.classList.add('dark-mode');
-    }
-</script>
-
+            // Optional: marker for central Mumbai
+            const marker = new google.maps.Marker({
+                position: mumbai,
+                map: map,
+                title: "Mumbai NGO Coverage"
+            });
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
 </body>
 </html>
